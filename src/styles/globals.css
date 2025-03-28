@@ -15,32 +15,6 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 
-.slider-dots {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-}
-
-.slider-dot {
-  background: #666;
-  border-radius: 50%;
-  height: 8px;
-  width: 8px;
-  margin: 0 5px;
-  opacity: 0.5;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.slider-dot:hover {
-  transform: scale(1.1);
-}
-
-.slider-dot.active {
-  opacity: 1;
-  background: #000;
-  transform: scale(1.1);
-}
-
 /* Fade animation for slider */
 .slide-fade-enter {
   opacity: 0;
