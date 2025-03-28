@@ -84,7 +84,7 @@ const HeroSlider: React.FC = () => {
                   {slide.subtitle}
                 </p>
                 <div className="flex justify-center">
-                  <button className="bg-[rgba(114,79,61,0.85)] text-snow font-montserrat font-medium py-3 px-8 tracking-wider rounded-[12px] hover:bg-[rgba(114,79,61,1)] transition-all shadow-lg">
+                  <button className="bg-[rgba(114,79,61,0.85)] text-snow font-montserrat font-medium py-3 px-8 tracking-wider rounded-[12px] hover:bg-[rgba(114,79,61,1)] transition-all duration-300 hover:shadow-lg hover:scale-105 shadow-lg">
                     EXPLORE COLLECTION
                   </button>
                 </div>
