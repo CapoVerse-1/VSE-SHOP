@@ -1186,7 +1186,7 @@ const FeaturedProducts: React.FC = () => {
           <div className="text-center mt-12">
             <Link 
               href="/categories" 
-              className="inline-block bg-[#724F3D] text-snow font-montserrat font-medium py-3 px-8 tracking-wider rounded-[12px] transition-all duration-300 hover:bg-[rgba(114,79,61,0.85)] hover:shadow-md hover:translate-y-[-2px]"
+              className="inline-block bg-[#724F3D] text-snow font-montserrat font-medium py-3 px-8 tracking-wider rounded-[12px] transition-all duration-300 hover:bg-[rgba(114,79,61,0.85)] hover:shadow-md hover:translate-y-[-2px] hover:scale-105"
             >
               VIEW ALL CATEGORIES
             </Link>
@@ -1293,7 +1293,7 @@ const FeaturedProducts: React.FC = () => {
           <div className="text-center mt-12">
             <Link 
               href="/collections" 
-              className="inline-block bg-[#724F3D] text-snow font-montserrat font-medium py-3 px-8 tracking-wider rounded-[12px] transition-all duration-300 hover:bg-[rgba(114,79,61,0.85)] hover:shadow-md hover:translate-y-[-2px]"
+              className="inline-block bg-[#724F3D] text-snow font-montserrat font-medium py-3 px-8 tracking-wider rounded-[12px] transition-all duration-300 hover:bg-[rgba(114,79,61,0.85)] hover:shadow-md hover:translate-y-[-2px] hover:scale-105"
             >
               VIEW ALL PRODUCTS
             </Link>
