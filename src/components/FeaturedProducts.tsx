@@ -703,7 +703,7 @@ const FeaturedProducts: React.FC = () => {
     // Set a new timer for 3 seconds
     hoverTimerRef.current = setTimeout(() => {
       setPopupProduct(productId);
-    }, 3000);
+    }, 1500);
   };
 
   // Handle mouse leave for product card only
@@ -742,7 +742,7 @@ const FeaturedProducts: React.FC = () => {
     
     const timeout = setTimeout(() => {
       setPopupProduct(productId);
-    }, 800);
+    }, 500);
     
     setTouchTimeout(timeout);
   };
@@ -803,7 +803,7 @@ const FeaturedProducts: React.FC = () => {
     // Set a new timer for 4 seconds (longer than product hover)
     categoryHoverTimerRef.current = setTimeout(() => {
       setPopupCategory(categoryId);
-    }, 4000);
+    }, 1500);
   };
 
   // Handle mouse leave for category card
@@ -842,7 +842,7 @@ const FeaturedProducts: React.FC = () => {
     
     const timeout = setTimeout(() => {
       setPopupCategory(categoryId);
-    }, 800);
+    }, 500);
     
     categoryTouchTimeout.current = timeout;
   };
