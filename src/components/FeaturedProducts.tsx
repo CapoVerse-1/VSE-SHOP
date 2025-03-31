@@ -1343,9 +1343,9 @@ const FeaturedProducts: React.FC = () => {
                     <button className="w-full bg-[rgba(114,79,61,0.85)] text-snow font-montserrat font-medium py-3 px-8 tracking-wider rounded-[12px] hover:bg-[rgba(114,79,61,1)] transition-all">
                       ADD TO CART
                     </button>
-                    <button className="w-full mt-2 border border-[#724F3D] text-[#724F3D] font-montserrat font-medium py-3 px-8 tracking-wider rounded-[12px] hover:bg-[rgba(114,79,61,0.05)] transition-all">
+                    <Link href={`/products/${product.slug}`} className="w-full mt-2 border border-[#724F3D] text-[#724F3D] font-montserrat font-medium py-3 px-8 tracking-wider rounded-[12px] hover:bg-[rgba(114,79,61,0.05)] transition-all block text-center">
                       VIEW DETAILS
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
