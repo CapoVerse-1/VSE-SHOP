@@ -316,28 +316,23 @@ const FeaturedProducts: React.FC = () => {
     }
     
     return (
-      <div className="relative h-3 w-32">
+      <div className="flex space-x-3 h-2">
         {Array.from({ length: Math.min(totalDots, totalSlides) }).map((_, index) => {
           const slideIndex = dotPositions[index];
           
           // Visual styling based on whether this is the active slide
           const isActive = slideIndex === activeSlide;
           
-          // Position dots evenly
-          const position = index / (Math.min(totalDots, totalSlides) - 1 || 1) * 100;
-          
           return (
             <button
               key={index}
-              className="absolute top-0 transition-all duration-300 rounded-full focus:outline-none"
+              className={`rounded-full transition-all duration-300 focus:outline-none ${
+                isActive 
+                  ? 'w-5 bg-black bg-opacity-70' 
+                  : 'w-2 bg-black bg-opacity-30 hover:bg-opacity-50'
+              }`}
               style={{
-                left: `${position}%`,
-                transform: `translateX(-50%) ${isActive ? 'scale(1.25)' : 'scale(1)'}`,
-                width: isActive ? '10px' : '8px',
-                height: isActive ? '10px' : '8px',
-                backgroundColor: 'black',
-                opacity: isActive ? 0.7 : (Math.abs(slideIndex - activeSlide) === 1 ? 0.3 : 0.15),
-                zIndex: isActive ? 10 : 5
+                height: '8px',
               }}
               onClick={() => goToSlide(slideIndex)}
               aria-label={`Navigate to products group ${slideIndex + 1}`}
@@ -354,63 +349,48 @@ const FeaturedProducts: React.FC = () => {
     const totalDots = 5;
     
     // Calculate the active dot position within the 5 dots
-    let activeDotPosition;
+    let dotPositions = [];
     
     if (totalCategorySlides <= 5) {
       // If we have 5 or fewer slides, direct mapping
-      activeDotPosition = activeCategorySlide;
+      for (let i = 0; i < totalCategorySlides; i++) {
+        dotPositions.push(i);
+      }
     } else {
-      // For more than 5 slides, we need to map the active slide to the correct dot position
-      if (activeCategorySlide === 0) {
-        // First slide always maps to first dot
-        activeDotPosition = 0;
-      } else if (activeCategorySlide === totalCategorySlides - 1) {
-        // Last slide always maps to last dot
-        activeDotPosition = 4;
-      } else {
-        // Map the intermediate slides proportionally
-        activeDotPosition = Math.round(1 + (activeCategorySlide - 1) * 3 / (totalCategorySlides - 2));
+      // For more than 5 slides, create a sliding window effect
+      let startDot = activeCategorySlide - 2;
+      
+      // Adjust for edge cases
+      if (startDot < 0) {
+        startDot = 0;
+      } else if (startDot > totalCategorySlides - 5) {
+        startDot = totalCategorySlides - 5;
+      }
+      
+      // Create array of dot positions
+      for (let i = 0; i < 5; i++) {
+        dotPositions.push(startDot + i);
       }
     }
     
     return (
-      <div className="relative h-3 w-32">
-        {Array.from({ length: totalDots }).map((_, index) => {
-          // Calculate the slide this dot represents
-          let slideIndex;
+      <div className="flex space-x-3 h-2">
+        {Array.from({ length: Math.min(totalDots, totalCategorySlides) }).map((_, index) => {
+          const slideIndex = dotPositions[index];
           
-          if (totalCategorySlides <= 5) {
-            // Direct mapping for 5 or fewer slides
-            slideIndex = index;
-          } else {
-            // Calculate which slide this dot represents
-            if (index === 0) {
-              slideIndex = 0; // First dot always represents first slide
-            } else if (index === 4) {
-              slideIndex = totalCategorySlides - 1; // Last dot always represents last slide
-            } else {
-              // Intermediate dots represent proportionally spaced slides
-              const step = (totalCategorySlides - 2) / 3;
-              slideIndex = Math.round(1 + (index - 1) * step);
-            }
-          }
-          
-          // Visual styling based on dot's relation to active dot
-          const distance = Math.abs(index - activeDotPosition);
-          const opacity = distance === 0 ? 0.7 : (distance === 1 ? 0.3 : 0.15);
+          // Visual styling based on whether this is the active slide
+          const isActive = slideIndex === activeCategorySlide;
           
           return (
             <button
               key={index}
-              className="absolute top-0 transition-all duration-300 rounded-full focus:outline-none"
+              className={`rounded-full transition-all duration-300 focus:outline-none ${
+                isActive 
+                  ? 'w-5 bg-black bg-opacity-70' 
+                  : 'w-2 bg-black bg-opacity-30 hover:bg-opacity-50'
+              }`}
               style={{
-                left: `${(index / 4) * 100}%`,
-                transform: `translateX(-50%) ${index === activeDotPosition ? 'scale(1.25)' : 'scale(1)'}`,
-                width: index === activeDotPosition ? '10px' : '8px',
-                height: index === activeDotPosition ? '10px' : '8px',
-                backgroundColor: 'black',
-                opacity: opacity,
-                zIndex: index === activeDotPosition ? 10 : 5
+                height: '8px',
               }}
               onClick={() => goToCategorySlide(slideIndex)}
               aria-label={`Navigate to categories group ${slideIndex + 1}`}
