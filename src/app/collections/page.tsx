@@ -9,6 +9,7 @@ import { Product, Category, products, categories } from '@/data/products';
 export default function Collections() {
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+  const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
   
   // Set all products by default
   useEffect(() => {
@@ -23,25 +24,25 @@ export default function Collections() {
     <div className="min-h-screen bg-white">
       <Header />
       
-      {/* Hero section */}
-      <div className="bg-gray-50 py-32">
+      {/* Hero section - More compact */}
+      <div className="bg-gray-50 py-20">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-montserrat font-bold mb-4">Collections</h1>
-          <p className="text-gray-600 max-w-2xl mx-auto font-montserrat">
+          <h1 className="text-3xl md:text-4xl font-montserrat font-bold mb-3">Collections</h1>
+          <p className="text-gray-600 max-w-2xl mx-auto font-montserrat text-sm">
             Explore our extensive collection of luxury pieces crafted with exceptional materials and attention to detail.
           </p>
         </div>
       </div>
       
-      {/* Filter section */}
-      <div className="border-b border-gray-200 sticky top-20 bg-white z-20">
+      {/* Filter section - More sleek and minimal */}
+      <div className="sticky top-20 bg-white z-20 py-3 border-b border-gray-100 shadow-sm">
         <div className="container mx-auto px-4">
-          <div className="py-4 flex items-center overflow-x-auto no-scrollbar">
+          <div className="flex items-center overflow-x-auto no-scrollbar gap-2">
             <button 
-              className={`whitespace-nowrap px-5 py-2 rounded-full transition-colors mr-3 ${
+              className={`whitespace-nowrap px-4 py-1.5 text-xs rounded-full transition-all duration-300 ${
                 activeCategory === null 
                   ? 'bg-[#724F3D] text-white' 
-                  : 'bg-gray-100 hover:bg-gray-200 text-gray-800'
+                  : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
               }`}
               onClick={() => setActiveCategory(null)}
             >
@@ -51,10 +52,10 @@ export default function Collections() {
             {categories.map(category => (
               <button 
                 key={category.id}
-                className={`whitespace-nowrap px-5 py-2 rounded-full transition-colors mr-3 ${
+                className={`whitespace-nowrap px-4 py-1.5 text-xs rounded-full transition-all duration-300 ${
                   activeCategory === category.id 
                     ? 'bg-[#724F3D] text-white' 
-                    : 'bg-gray-100 hover:bg-gray-200 text-gray-800'
+                    : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
                 }`}
                 onClick={() => setActiveCategory(category.id)}
               >
@@ -65,70 +66,79 @@ export default function Collections() {
         </div>
       </div>
 
-      {/* Products Grid */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      {/* Products Grid - Smaller products, more minimal design */}
+      <div className="container mx-auto px-4 py-10">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {filteredProducts.map(product => (
-            <Link href={`/products/${product.slug}`} key={product.id} className="group">
-              <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 h-full flex flex-col">
-                <div className="relative aspect-square overflow-hidden bg-gray-100">
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                    style={{ backgroundImage: `url(${product.imageUrl})` }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
+            <Link 
+              href={`/products/${product.slug}`} 
+              key={product.id} 
+              className="group"
+              onMouseEnter={() => setHoveredProduct(product.id)}
+              onMouseLeave={() => setHoveredProduct(null)}
+            >
+              <div className="relative aspect-[3/4] overflow-hidden rounded-md mb-2 bg-gray-50">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-all duration-500 ease-in-out"
+                  style={{ backgroundImage: `url(${product.imageUrl})` }}
+                />
                 
-                <div className="p-5 flex-grow flex flex-col">
-                  <div className="flex-grow">
-                    <h3 className="font-montserrat font-medium text-lg text-gray-900 mb-1">{product.name}</h3>
-                    <p className="text-sm text-gray-500 font-montserrat mb-3 line-clamp-2">{product.description}</p>
-                  </div>
-                  
-                  <div className="flex justify-between items-center">
-                    <p className="font-montserrat font-bold text-lg">${product.price.toFixed(2)}</p>
-                    <div className="inline-flex items-center justify-center rounded-full w-8 h-8 bg-gray-100 group-hover:bg-[#724F3D] transition-colors duration-300">
-                      <svg 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        className="h-4 w-4 text-gray-600 group-hover:text-white transition-colors duration-300" 
-                        fill="none" 
-                        viewBox="0 0 24 24" 
-                        stroke="currentColor"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                      </svg>
-                    </div>
-                  </div>
+                {/* Hover overlay */}
+                <div className={`absolute inset-0 bg-black transition-opacity duration-300 ${
+                  hoveredProduct === product.id ? 'opacity-10' : 'opacity-0'
+                }`} />
+                
+                {/* Quick view button on hover */}
+                <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
+                  hoveredProduct === product.id ? 'opacity-100' : 'opacity-0'
+                }`}>
+                  <span className="bg-white bg-opacity-90 text-[#724F3D] text-xs px-3 py-1.5 rounded-full transition-transform duration-300 transform translate-y-1 group-hover:translate-y-0">
+                    Quick View
+                  </span>
                 </div>
+              </div>
+              
+              <div className="space-y-1">
+                <h3 className="font-montserrat text-sm text-gray-800 transition-colors group-hover:text-[#724F3D] line-clamp-1">{product.name}</h3>
+                <p className="font-montserrat font-medium text-sm">${product.price.toFixed(2)}</p>
               </div>
             </Link>
           ))}
         </div>
         
         {filteredProducts.length === 0 && (
-          <div className="text-center py-20">
-            <p className="text-gray-500 font-montserrat text-lg">No products found in this category.</p>
+          <div className="text-center py-12">
+            <p className="text-gray-500 font-montserrat text-sm">No products found in this category.</p>
           </div>
         )}
       </div>
       
-      {/* Newsletter Section */}
-      <div className="bg-gray-50 py-16">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-montserrat font-semibold mb-2">Join Our Newsletter</h2>
-            <p className="text-gray-600 font-montserrat">
-              Subscribe to receive updates on new collections and exclusive offers.
+      {/* Product Quick View Modal */}
+      {hoveredProduct !== null && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+          <div className="bg-white rounded-md shadow-xl max-w-lg w-full mx-4 pointer-events-auto opacity-0 transform scale-95 transition-all duration-300 group-hover:opacity-100 group-hover:scale-100">
+            {/* Quick view content would go here */}
+          </div>
+        </div>
+      )}
+      
+      {/* Newsletter Section - More minimal */}
+      <div className="bg-gray-50 py-12">
+        <div className="container mx-auto px-4 max-w-md">
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-montserrat font-semibold mb-2">Newsletter</h2>
+            <p className="text-gray-600 font-montserrat text-sm">
+              Subscribe to receive updates on new arrivals and offers.
             </p>
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-2 max-w-xl mx-auto">
+          <div className="flex gap-2">
             <input 
               type="email" 
-              placeholder="Your email address" 
-              className="flex-grow px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#724F3D] focus:border-transparent"
+              placeholder="Email address" 
+              className="flex-grow px-3 py-2 rounded-md border border-gray-200 focus:outline-none focus:ring-1 focus:ring-[#724F3D] focus:border-transparent text-sm"
             />
-            <button className="bg-[#724F3D] text-white font-montserrat font-medium py-3 px-6 rounded-lg transition-all hover:bg-[rgba(114,79,61,0.9)] whitespace-nowrap">
+            <button className="bg-[#724F3D] text-white font-montserrat font-medium py-2 px-4 rounded-md transition-all hover:bg-[rgba(114,79,61,0.9)] text-sm">
               Subscribe
             </button>
           </div>
